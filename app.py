@@ -2,13 +2,19 @@ from flask import Flask,render_template,request
 import pickle
 import pandas as pd
 import numpy as np
+import bz2
+
+def load_zipped_pickle(filename):
+    with bz2.open(filename, "rb") as f:
+        loaded_object = pickle.load(f)
+        return loaded_object
 
 popular_dict = pickle.load(open('popularity_dict.pkl','rb'))
 popular_df = pd.DataFrame(popular_dict)
 
 pt_dict = pickle.load(open('pt_dict.pkl','rb'))
 pt=pd.DataFrame(pt_dict)
-books_dict = pickle.load(open('books_dict.pkl','rb'))
+books_dict = load_zipped_pickle("books_dict1.pkl")
 books_df=pd.DataFrame(books_dict)
 similarity_scores=pickle.load(open('similarity_scores.pkl','rb'))
 
